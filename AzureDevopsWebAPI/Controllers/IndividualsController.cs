@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AzureDevopsWebAPI.Data;
 using AzureDevopsWebAPI.Models;
+using AzureDevopsWebAPI.Models.Dto;
 
 namespace AzureDevopsWebAPI.Controllers
 {
-    [Route("api/AzureDevops")]
+    [Route("api/[controller]")]
     [ApiController]
     public class IndividualsController : ControllerBase
     {
@@ -21,145 +22,36 @@ namespace AzureDevopsWebAPI.Controllers
             _context = context;
         }
 
-        //// GET: Individuals
-        //public async Task<IActionResult> GetIndividuals()
-        //{
-        //      //return _context.Individuals != null ? 
-        //      //            View(await _context.Individuals.ToListAsync()) :
-        //      //            Problem("Entity set 'ApplicationDBContext.Individuals'  is null.");
-        //}
+        [HttpGet(Name = "Individuals")]
+        [ProducesResponseType(200)]
+        public ActionResult<IEnumerable<Individual>> getIndividuals()
+        {
+            return Ok(_context.Individuals.ToList());
+        }
 
-        //// GET: Individuals/GetIndividual/5
-        //public async Task<IActionResult> GetIndividual(int? id)
-        //{
-        //    if (id == null || _context.Individuals == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        public ActionResult<Individual> postIndividuals(IndividualDto individual)
+        {
+            if (individual.Password == null)
+                individual.Password = "0000";
 
-        //    var individual = await _context.Individuals
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (individual == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        //    return View(individual);
-        //}
+            var exists = _context.Individuals.FirstOrDefault(i => i.Email.ToLower() == individual.Email.ToLower());
 
-        //// GET: Individuals/Create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
+            var individual2 = new Individual
+            {
+                Id = 0,
+                Email = individual.Email,
+                AccessLevelId = 7,
+                Password = individual.Password 
+            };
 
-        //// POST: Individuals/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ProjectName,StartDateTime,EndDateTime")] Individual individual)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(individual);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(GetIndividuals));
-        //    }
-        //    return View(individual);
-        //}
+            var inserted = _context.Individuals.Add(individual2);
+            _context.SaveChanges();
 
-        //// GET: Individuals/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null || _context.Individuals == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var individual = await _context.Individuals.FindAsync(id);
-        //    if (individual == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(individual);
-        //}
-
-        //// POST: Individuals/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,ProjectName,StartDateTime,EndDateTime")] Individual individual)
-        //{
-        //    if (id != individual.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(individual);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!IndividualExists(individual.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(GetIndividuals));
-        //    }
-        //    return View(individual);
-        //}
-
-        //// GET: Individuals/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Individuals == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var individual = await _context.Individuals
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (individual == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(individual);
-        //}
-
-        //// POST: Individuals/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Individuals == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDBContext.Individuals'  is null.");
-        //    }
-        //    var individual = await _context.Individuals.FindAsync(id);
-        //    if (individual != null)
-        //    {
-        //        _context.Individuals.Remove(individual);
-        //    }
-            
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(GetIndividuals));
-        //}
-
-        //private bool IndividualExists(int id)
-        //{
-        //  return (_context.Individuals?.Any(e => e.Id == id)).GetValueOrDefault();
-        //}
+            return Ok(inserted.Entity);
+        }
     }
 }

@@ -4,6 +4,7 @@ using AzureDevopsWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureDevopsWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230218004717_seedingChangelogWithRecord")]
+    partial class seedingChangelogWithRecord
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccessLevels", (string)null);
+                    b.ToTable("AccessLevels");
 
                     b.HasData(
                         new
@@ -90,9 +93,6 @@ namespace AzureDevopsWebAPI.Migrations
                     b.Property<int>("IndividualId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ItemTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
@@ -104,11 +104,9 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemTypeId");
-
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ChangeLogs", (string)null);
+                    b.ToTable("ChangeLogs");
 
                     b.HasData(
                         new
@@ -130,14 +128,14 @@ namespace AzureDevopsWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AccessLevelId")
+                    b.Property<int>("AccessLevelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -145,36 +143,36 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Individuals", (string)null);
+                    b.ToTable("Individuals");
 
                     b.HasData(
                         new
                         {
                             Id = 221028080,
                             AccessLevelId = 1,
-                            Email = "221028080@students.nust.na",
-                            Password = "0000"
+                            FirstName = "King",
+                            LastName = "Hiholike"
                         },
                         new
                         {
                             Id = 217030203,
                             AccessLevelId = 2,
-                            Email = "217030203@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Aron",
+                            LastName = "Indongo"
                         },
                         new
                         {
                             Id = 221128220,
                             AccessLevelId = 6,
-                            Email = "221128220@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Max",
+                            LastName = "Haikali"
                         },
                         new
                         {
                             Id = 220130051,
                             AccessLevelId = 3,
-                            Email = "220130051@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Takudzwa",
+                            LastName = "Kucherera"
                         });
                 });
 
@@ -192,7 +190,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemTypes", (string)null);
+                    b.ToTable("ItemTypes");
 
                     b.HasData(
                         new
@@ -246,7 +244,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
 
                     b.HasData(
                         new
@@ -283,17 +281,11 @@ namespace AzureDevopsWebAPI.Migrations
 
             modelBuilder.Entity("AzureDevopsWebAPI.Models.ChangeLog", b =>
                 {
-                    b.HasOne("AzureDevopsWebAPI.Models.ItemType", "ItemType")
-                        .WithMany()
-                        .HasForeignKey("ItemTypeId");
-
                     b.HasOne("AzureDevopsWebAPI.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ItemType");
 
                     b.Navigation("Project");
                 });
@@ -302,7 +294,9 @@ namespace AzureDevopsWebAPI.Migrations
                 {
                     b.HasOne("AzureDevopsWebAPI.Models.AccessLevel", "AccessLevel")
                         .WithMany()
-                        .HasForeignKey("AccessLevelId");
+                        .HasForeignKey("AccessLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AccessLevel");
                 });

@@ -4,6 +4,7 @@ using AzureDevopsWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureDevopsWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230218000430_addingItemTypesDbSet")]
+    partial class addingItemTypesDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccessLevels", (string)null);
+                    b.ToTable("AccessLevels");
 
                     b.HasData(
                         new
@@ -90,9 +93,6 @@ namespace AzureDevopsWebAPI.Migrations
                     b.Property<int>("IndividualId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ItemTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
@@ -104,22 +104,9 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemTypeId");
-
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ChangeLogs", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 3,
-                            EndDateTime = new DateTime(2023, 2, 18, 2, 40, 0, 0, DateTimeKind.Unspecified),
-                            IndividualId = 220130051,
-                            ProjectId = 3,
-                            StartDateTime = new DateTime(2023, 2, 17, 13, 47, 40, 0, DateTimeKind.Unspecified),
-                            Summary = "Auditing Financial Statements"
-                        });
+                    b.ToTable("ChangeLogs");
                 });
 
             modelBuilder.Entity("AzureDevopsWebAPI.Models.Individual", b =>
@@ -130,14 +117,14 @@ namespace AzureDevopsWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AccessLevelId")
+                    b.Property<int>("AccessLevelId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -145,36 +132,36 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Individuals", (string)null);
+                    b.ToTable("Individuals");
 
                     b.HasData(
                         new
                         {
                             Id = 221028080,
                             AccessLevelId = 1,
-                            Email = "221028080@students.nust.na",
-                            Password = "0000"
+                            FirstName = "King",
+                            LastName = "Hiholike"
                         },
                         new
                         {
                             Id = 217030203,
                             AccessLevelId = 2,
-                            Email = "217030203@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Aron",
+                            LastName = "Indongo"
                         },
                         new
                         {
                             Id = 221128220,
                             AccessLevelId = 6,
-                            Email = "221128220@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Max",
+                            LastName = "Haikali"
                         },
                         new
                         {
                             Id = 220130051,
-                            AccessLevelId = 3,
-                            Email = "220130051@students.nust.na",
-                            Password = "0000"
+                            AccessLevelId = 6,
+                            FirstName = "Takudzwa",
+                            LastName = "Kucherera"
                         });
                 });
 
@@ -192,39 +179,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Value = "Planning & Analysis"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Value = "System Design"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Value = "Development"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Value = "Verification & Testing"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Value = "Documentation"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Value = "System Audit"
-                        });
+                    b.ToTable("ItemTypes");
                 });
 
             modelBuilder.Entity("AzureDevopsWebAPI.Models.Project", b =>
@@ -246,54 +201,42 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             AccessLevelId = 1,
-                            Name = "Fin-Statements Software Review"
+                            Name = "Asset Management Software"
                         },
                         new
                         {
                             Id = 2,
                             AccessLevelId = 2,
-                            Name = "Financials Database Design"
+                            Name = "Payroll Database"
                         },
                         new
                         {
                             Id = 3,
                             AccessLevelId = 7,
-                            Name = "Asset-Management System Audit"
+                            Name = "Email Streaming Platform"
                         },
                         new
                         {
                             Id = 4,
                             AccessLevelId = 5,
-                            Name = "Payroll Software UI Developmet"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccessLevelId = 5,
-                            Name = "Customer Balance API Review"
+                            Name = "Financial Statements Automation"
                         });
                 });
 
             modelBuilder.Entity("AzureDevopsWebAPI.Models.ChangeLog", b =>
                 {
-                    b.HasOne("AzureDevopsWebAPI.Models.ItemType", "ItemType")
-                        .WithMany()
-                        .HasForeignKey("ItemTypeId");
-
                     b.HasOne("AzureDevopsWebAPI.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ItemType");
 
                     b.Navigation("Project");
                 });
@@ -302,7 +245,9 @@ namespace AzureDevopsWebAPI.Migrations
                 {
                     b.HasOne("AzureDevopsWebAPI.Models.AccessLevel", "AccessLevel")
                         .WithMany()
-                        .HasForeignKey("AccessLevelId");
+                        .HasForeignKey("AccessLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AccessLevel");
                 });

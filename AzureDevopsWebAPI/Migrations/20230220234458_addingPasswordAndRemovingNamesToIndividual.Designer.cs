@@ -4,6 +4,7 @@ using AzureDevopsWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureDevopsWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230220234458_addingPasswordAndRemovingNamesToIndividual")]
+    partial class addingPasswordAndRemovingNamesToIndividual
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccessLevels", (string)null);
+                    b.ToTable("AccessLevels");
 
                     b.HasData(
                         new
@@ -108,7 +111,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ChangeLogs", (string)null);
+                    b.ToTable("ChangeLogs");
 
                     b.HasData(
                         new
@@ -145,7 +148,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Individuals", (string)null);
+                    b.ToTable("Individuals");
 
                     b.HasData(
                         new
@@ -192,7 +195,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemTypes", (string)null);
+                    b.ToTable("ItemTypes");
 
                     b.HasData(
                         new
@@ -246,7 +249,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
 
                     b.HasData(
                         new

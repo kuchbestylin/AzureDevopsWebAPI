@@ -4,6 +4,7 @@ using AzureDevopsWebAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AzureDevopsWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230220233108_addingEmailToIndividiualModel")]
+    partial class addingEmailToIndividiualModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccessLevels", (string)null);
+                    b.ToTable("AccessLevels");
 
                     b.HasData(
                         new
@@ -108,7 +111,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ChangeLogs", (string)null);
+                    b.ToTable("ChangeLogs");
 
                     b.HasData(
                         new
@@ -137,7 +140,11 @@ namespace AzureDevopsWebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -145,7 +152,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Individuals", (string)null);
+                    b.ToTable("Individuals");
 
                     b.HasData(
                         new
@@ -153,28 +160,32 @@ namespace AzureDevopsWebAPI.Migrations
                             Id = 221028080,
                             AccessLevelId = 1,
                             Email = "221028080@students.nust.na",
-                            Password = "0000"
+                            FirstName = "King",
+                            LastName = "Hiholike"
                         },
                         new
                         {
                             Id = 217030203,
                             AccessLevelId = 2,
                             Email = "217030203@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Aron",
+                            LastName = "Indongo"
                         },
                         new
                         {
                             Id = 221128220,
                             AccessLevelId = 6,
                             Email = "221128220@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Max",
+                            LastName = "Haikali"
                         },
                         new
                         {
                             Id = 220130051,
                             AccessLevelId = 3,
                             Email = "220130051@students.nust.na",
-                            Password = "0000"
+                            FirstName = "Takudzwa",
+                            LastName = "Kucherera"
                         });
                 });
 
@@ -192,7 +203,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemTypes", (string)null);
+                    b.ToTable("ItemTypes");
 
                     b.HasData(
                         new
@@ -246,7 +257,7 @@ namespace AzureDevopsWebAPI.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("Projects", (string)null);
+                    b.ToTable("Projects");
 
                     b.HasData(
                         new
