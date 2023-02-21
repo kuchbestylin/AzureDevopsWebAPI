@@ -5,7 +5,7 @@ namespace AzureDevopsWebAPI.Models.Dto
 {
     public class ChangeLogDto
     {
-        [Required] public int IndividualId { get; set; }
+        [Required] public string? email { get; set; }
         
         [Required] public int ProjectId { get; set; }
 

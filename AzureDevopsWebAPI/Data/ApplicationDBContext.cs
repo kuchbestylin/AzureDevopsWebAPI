@@ -51,7 +51,7 @@ namespace AzureDevopsWebAPI.Data
                 );
 
             modelBuilder.Entity<ChangeLog>().HasData(
-                    new ChangeLog { Id = 3, IndividualId = 220130051, ProjectId = 3, StartDateTime = new DateTime(2023, 02, 17, 13, 47, 40), EndDateTime = new DateTime(2023, 02, 18, 2, 40, 0), Summary = "Auditing Financial Statements" }
+                    new ChangeLog { Id = 3, IndividualEmail = "220130051@students.nust.na", ProjectId = 3, StartDateTime = new DateTime(2023, 02, 17, 13, 47, 40), EndDateTime = new DateTime(2023, 02, 18, 2, 40, 0), Summary = "Auditing Financial Statements" }
                 );
         }
     }

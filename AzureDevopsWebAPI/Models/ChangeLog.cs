@@ -9,7 +9,7 @@ namespace AzureDevopsWebAPI.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        public int IndividualId { get; set; }
+        public string? IndividualEmail { get; set; }
         [Required]
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
